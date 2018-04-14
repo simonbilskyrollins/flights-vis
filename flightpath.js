@@ -128,8 +128,8 @@ function plotFlightpaths(plane) {
 
     // Sort in order of increasing date and time
     data.sort(function(a,b) {
-          aDate = new Date(a.date);
-          bDate = new Date(b.date);
+          aDate = parseDate(a.date);
+          bDate = parseDate(b.date);
           aTime = parseInt(a.depTime);
           bTime = parseInt(b.depTime);
           if (aDate.getTime() === bDate.getTime()) {
@@ -250,4 +250,11 @@ function reorder() {
       return 1;
     }
   });
+}
+
+function parseDate(input) {
+  year = input.substr(0, 4);
+  month = input.substr(4, 2) - 1;  // Months are 0-indexed :(
+  day = input.substr(6, 2);
+  return new Date(year, month, day);
 }
