@@ -75,34 +75,41 @@ d3.json('us.json', function(error, us) {
 });
 
 // Load airport data and plot them on the map as points
-d3.csv('airports.csv', function(data) {
-  content.selectAll('.airport')
-      .data(data)
-    .enter().append('circle')
-      .attr('class', 'airport')
-      .attr('id', function(d) { return d.code; })
-      .attr('long', function(d) { return d.longitude; })
-      .attr('lat', function(d) { return d.latitude; })
-      .attr('cx', function(d) { return projection([d.longitude, d.latitude])[0]; })
-      .attr('cy', function(d) { return projection([d.longitude, d.latitude])[1]; })
-      .attr('r', '2px')
-      .on('mouseover', function(d) {
-        tooltip.transition()
-          .style('opacity', 0.9);
-        tooltip.html('<b>' + d.code + '</b><br/>' + d.city + ', ' + d.state)
-          .style('left', (d3.event.pageX) + 'px')
-          .style('top', (d3.event.pageY - 42) + 'px');
-      })
-      .on('mousemove', function(d) {
-        tooltip.style('left', (d3.event.pageX) + 'px')
-          .style('top', (d3.event.pageY - 42) + 'px');
-      })
-      .on('mouseout', function(d) {
-        tooltip.transition()
-          .duration(200)
-          .style('opacity', 0);
-      });
-  plotFlightpaths();
+d3.json('airports.php', function(data) {
+  d3.csv('airports.csv', function(airports) {
+    // Filter out airports that do not appear in the flights dataset
+    airports = airports.filter(function(airport) {
+      if (data.includes(airport.code)) return true;
+      else return false;
+    });
+    content.selectAll('.airport')
+        .data(airports)
+      .enter().append('circle')
+        .attr('class', 'airport')
+        .attr('id', function(d) { return d.code; })
+        .attr('long', function(d) { return d.longitude; })
+        .attr('lat', function(d) { return d.latitude; })
+        .attr('cx', function(d) { return projection([d.longitude, d.latitude])[0]; })
+        .attr('cy', function(d) { return projection([d.longitude, d.latitude])[1]; })
+        .attr('r', '2px')
+        .on('mouseover', function(d) {
+          tooltip.transition()
+            .style('opacity', 0.9);
+          tooltip.html('<b>' + d.code + '</b><br/>' + d.city)
+            .style('left', (d3.event.pageX) + 'px')
+            .style('top', (d3.event.pageY - 42) + 'px');
+        })
+        .on('mousemove', function(d) {
+          tooltip.style('left', (d3.event.pageX) + 'px')
+            .style('top', (d3.event.pageY - 42) + 'px');
+        })
+        .on('mouseout', function(d) {
+          tooltip.transition()
+            .duration(200)
+            .style('opacity', 0);
+        });
+    plotFlightpaths();
+  });
 });
 
 // Load on-time data and plot flight paths of one airplane
