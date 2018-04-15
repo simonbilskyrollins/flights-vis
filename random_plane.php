@@ -13,7 +13,7 @@
    $carrier = $args['carrier'];
 
    if ($carrier) {
-      $valid = array('AA', 'DL', 'UA', 'WN', 'AS', 'VX', 'B6', 'NK', 'F9', 'OO', 'EV');
+      $valid = array('AA', 'DL', 'UA', 'WN', 'AS', 'VX', 'HA', 'B6', 'NK', 'F9', 'OO', 'EV', '9E', 'OH', 'G4', 'MQ', 'YV', 'YX');
       if (!in_array($carrier, $valid)) {
          $carrier = 'AA';
       }
