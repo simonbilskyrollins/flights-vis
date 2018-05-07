@@ -51,6 +51,14 @@ var tooltip = d3.select('body').append('div')
                   .attr('class', 'tooltip')
                   .style('opacity', 0);
 
+// Set heading text to reflect the month of the latest dataset
+var client = new XMLHttpRequest();
+client.open('GET', 'latest.txt');
+client.onreadystatechange = function() {
+  document.getElementById('heading').textContent = 'Routes Flown by One Airplane in ' + client.responseText;
+}
+client.send();
+
 // Draw basemap
 // TopoJSON from https://gist.githubusercontent.com/mbostock/4090846/raw/d534aba169207548a8a3d670c9c2cc719ff05c47/us.json
 d3.json('us.json', function(error, us) {
