@@ -1,12 +1,10 @@
 var legend = d3.select('#legend').append('svg')
-  .attr('width', 960)
   .attr('height', 44)
-  .style('fill', 'none');
+  .attr('viewBox', '375 0 210 44');
 
 var svg = d3.select('body').append('svg')
-  .attr('width', 960)
-  .attr('height', 600)
-  .style('fill', 'none');
+  .attr('height', '100%')
+  .attr('viewBox', '0 0 1000 500');
 
 var basemap = svg.append('g');
 var content = svg.append('g');
